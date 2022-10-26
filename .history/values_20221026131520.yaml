@@ -1,0 +1,9 @@
+cluster:
+  k8sVersion: "1.23"
+  name: dev
+  provider: custom
+otomi:
+  adminPassword: bladibla
+  globalPullSecret:
+    username: otomi
+    password: rybdic-juZwi0-myvcaz
