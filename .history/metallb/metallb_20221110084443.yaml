@@ -1,4 +1,4 @@
-# Edit the addresses according to your IP setup. The config below uses only one virtual IP for Metallb.
+# Edit the 
 
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool

@@ -16,6 +16,6 @@ kubectl edit configmap -n kube-system kube-proxy
 
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
 
-# And then create the IPAddressPool and L2Advertisement
+# create the IPAddressPool and L2Advertisement
 
 kubectl apply -f metallb.yaml -n metallb-system
