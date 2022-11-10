@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#!/usr/bin/env bash
+
 sudo setenforce 0
 sudo sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
 sudo firewall-cmd --permanent --add-port=179/tcp
@@ -50,6 +52,3 @@ EOF
 sudo yum install kubelet-1.23.8-0 kubeadm-1.23.8-0 kubectl-1.23.8-0
 sudo systemctl enable kubelet
 sudo systemctl start kubelet
-
-kubeadm join xx.xx.xx.xx:6443 --token xxx \
-	--discovery-token-ca-cert-hash sha256:xxxx

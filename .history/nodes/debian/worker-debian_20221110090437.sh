@@ -3,7 +3,7 @@
 sudo apt update
 sudo swapoff -a
 (crontab -l 2>/dev/null; echo "@reboot /sbin/swapoff -a") | crontab - || true
-# requirements ondat storageos
+# requirements storageos
 # sudo apt-get update
 # sudo apt-get install -y linux-modules-extra-$(uname -r)
 # sudo modprobe overlay

@@ -3,16 +3,18 @@
 sudo apt update
 sudo swapoff -a
 (crontab -l 2>/dev/null; echo "@reboot /sbin/swapoff -a") | crontab - || true
-# requirements ondat storageos
-# sudo apt-get update
-# sudo apt-get install -y linux-modules-extra-$(uname -r)
-# sudo modprobe overlay
-# sudo modprobe br_netfilter
+# requirements storageos
+sudo apt-get update
+sudo apt-get install -y linux-modules-extra-$(uname -r)
+sudo modprobe overlay
+sudo modprobe br_netfilter
+# sysctl params required by setup, params persist across reboots
 sudo tee /etc/sysctl.d/kubernetes.conf<<EOF
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
 EOF
+# Apply sysctl params without reboot
 sudo sysctl --system
 sudo apt update
 sudo apt install -y curl gnupg2 software-properties-common apt-transport-https ca-certificates
