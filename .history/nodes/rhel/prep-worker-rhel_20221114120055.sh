@@ -21,7 +21,6 @@ modprobe nf_conntrack
 modprobe nf_nat
 modprobe x_tables
 EOF
-sudo chmod 755 /etc/sysconfig/modules/istio.modules
 # sudo firewall-cmd --permanent --add-port=179/tcp
 # sudo firewall-cmd --permanent --add-port=10250/tcp
 # sudo firewall-cmd --permanent --add-port=30000-32767/tcp

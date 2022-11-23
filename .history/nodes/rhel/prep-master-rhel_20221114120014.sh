@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
-# HOST='192.168.200.34 worker-04'
-# sudo echo $HOST >> /etc/hosts
-# sudo hostnamectl set-hostname $HOST
 sudo setenforce 0
 sudo sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
-sudo systemctl stop firewalld
-sudo systemctl disable firewalld
 sudo tee /etc/sysconfig/modules/istio.modules <<EOF
 #!/bin/sh
 modprobe br_netfilter
@@ -21,11 +16,16 @@ modprobe nf_conntrack
 modprobe nf_nat
 modprobe x_tables
 EOF
-sudo chmod 755 /etc/sysconfig/modules/istio.modules
-# sudo firewall-cmd --permanent --add-port=179/tcp
+chmod 755 /etc/sysconfig/modules/.modules
+# sudo firewall-cmd --permanent --add-port=6443/tcp
+# sudo firewall-cmd --permanent --add-port=2379-2380/tcp
 # sudo firewall-cmd --permanent --add-port=10250/tcp
-# sudo firewall-cmd --permanent --add-port=30000-32767/tcp
+# sudo firewall-cmd --permanent --add-port=10251/tcp
+# sudo firewall-cmd --permanent --add-port=10259/tcp
+# sudo firewall-cmd --permanent --add-port=10257/tcp
+# sudo firewall-cmd --permanent --add-port=179/tcp
 # sudo firewall-cmd --permanent --add-port=4789/udp
+# sudo firewall-cmd --permanent --add-port=9443/tcp
 # # storageos
 # sudo firewall-cmd --permanent --add-port=5701/tcp
 # sudo firewall-cmd --permanent --add-port=5703/tcp
@@ -77,4 +77,5 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 EOF
 sudo yum -y install kubelet-1.23.8-0 kubeadm-1.23.8-0 kubectl-1.23.8-0
 sudo systemctl enable kubelet
-sudo reboot
+sudo systemctl start kubelet
+
