@@ -6,20 +6,24 @@ sudo setenforce 0
 sudo sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
-sudo tee /etc/modules-load.d/istio.conf <<EOF
-br_netfilter
-ip_tables
-iptable_mangle
-iptable_nat
-xt_REDIRECT
-xt_conntrack
-xt_owner
-xt_tcpudp
-bridge
-nf_conntrack
-nf_nat
-x_tables
+sudo mkdir /etc/rc.sysinit
+sudo tee /etc/modules
+sudo tee /etc/sysconfig/modules/istio.modules <<EOF
+#!/bin/sh
+modprobe br_netfilter
+modprobe ip_tables
+modprobe iptable_mangle
+modprobe iptable_nat
+modprobe xt_REDIRECT
+modprobe xt_conntrack
+modprobe xt_owner
+modprobe xt_tcpudp
+modprobe bridge
+modprobe nf_conntrack
+modprobe nf_nat
+modprobe x_tables
 EOF
+sudo chmod 755 /etc/sysconfig/modules/istio.modules
 # sudo firewall-cmd --permanent --add-port=179/tcp
 # sudo firewall-cmd --permanent --add-port=10250/tcp
 # sudo firewall-cmd --permanent --add-port=30000-32767/tcp

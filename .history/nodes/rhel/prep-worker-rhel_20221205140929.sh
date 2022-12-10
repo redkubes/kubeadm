@@ -6,6 +6,7 @@ sudo setenforce 0
 sudo sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
+sudo tee /etc/modules
 sudo tee /etc/modules-load.d/istio.conf <<EOF
 br_netfilter
 ip_tables
