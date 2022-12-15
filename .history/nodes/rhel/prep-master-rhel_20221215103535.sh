@@ -17,6 +17,7 @@ nf_conntrack
 nf_nat
 x_tables
 EOF
+sudo chmod 755 /etc/sysconfig/modules/istio.modules
 sudo swapoff -a
 sudo sed -i '/ swap / s/^/#/' /etc/fstab
 sudo yum install -y yum-utils
