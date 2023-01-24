@@ -60,4 +60,4 @@ EOF
 sudo yum -y install kubelet-1.23.16-0 kubeadm-1.23.16-0 kubectl-1.23.16-0
 sudo systemctl enable kubelet
 sudo systemctl start kubelet
-
+sudo reboot
