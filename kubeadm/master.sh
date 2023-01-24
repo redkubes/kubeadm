@@ -17,10 +17,11 @@ kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisione
 kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 # install Helm
+export PATH=$PATH:/usr/local/bin
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 sudo chmod 700 get_helm.sh
 sudo ./get_helm.sh
-export PATH=$PATH:/usr/local/bin
+
 
 # set strictARP=true for metallb
 kubectl get configmap kube-proxy -n kube-system -o yaml | \
