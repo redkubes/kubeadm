@@ -40,7 +40,7 @@ apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
   name: default-pool
-  namespace: metallb-system
+  namespace: mlb
 spec:
   addresses:
   - 192.168.200.10-192.168.200.12
@@ -49,5 +49,5 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   name: default-pool
-  namespace: metallb-system
+  namespace: mlb
 EOF
