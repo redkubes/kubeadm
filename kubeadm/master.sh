@@ -29,10 +29,10 @@ sed -e "s/strictARP: false/strictARP: true/" | \
 kubectl apply -f - -n kube-system
 
 # Install Metallb with Helm
-kubectl create namespace metallb-system
+kubectl create namespace mlb
 helm repo add metallb https://metallb.github.io/metallb
 helm repo update
-helm install metallb metallb/metallb -n metallb-system
+helm install metallb metallb/metallb -n mlb
 
 #Create the IPAddressPool and L2Advertisement
 cat <<EOF | kubectl apply -f -
