@@ -3,11 +3,6 @@
 sudo apt update
 sudo swapoff -a
 (crontab -l 2>/dev/null; echo "@reboot /sbin/swapoff -a") | crontab - || true
-# requirements storageos
-sudo apt-get update
-sudo apt-get install -y linux-modules-extra-$(uname -r)
-sudo modprobe overlay
-sudo modprobe br_netfilter
 # sysctl params required by setup, params persist across reboots
 sudo tee /etc/sysctl.d/kubernetes.conf<<EOF
 net.bridge.bridge-nf-call-ip6tables = 1
@@ -42,7 +37,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 sudo systemctl enable docker
 sudo apt update
-sudo apt install git wget curl
+sudo apt -y install git wget curl
 VER=$(curl -s https://api.github.com/repos/Mirantis/cri-dockerd/releases/latest|grep tag_name | cut -d '"' -f 4|sed 's/v//g')
 echo $VER
 wget https://github.com/Mirantis/cri-dockerd/releases/download/v${VER}/cri-dockerd-${VER}.amd64.tgz
@@ -55,10 +50,11 @@ sudo sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd
 sudo systemctl daemon-reload
 sudo systemctl enable cri-docker.service
 sudo systemctl enable --now cri-docker.socket
-## install kubeadm packages
-sudo apt-get install -y apt-transport-https ca-certificates curl
-sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-sudo apt-get update -y
-sudo apt-get install -y kubelet=1.23.8-00 kubectl=1.23.8-00 kubeadm=1.23.8-00
+## install kubernetes packages
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo apt update
+sudo apt-get update --allow-unauthenticated
+sudo apt-get install -y kubelet=1.27.6-00 kubectl=1.27.6-00 kubeadm=1.27.6-00
+sudo kubeadm config images pull
 sudo apt-mark hold kubelet kubeadm kubectl

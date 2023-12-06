@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # init master(s)
 sudo kubeadm init \
-  --kubernetes-version=v1.23.16 \
+  --kubernetes-version=v1.27.6 \
   --pod-network-cidr=10.0.0.0/16 \
-  --cri-socket /run/cri-dockerd.sock \
+  --cri-socket=unix:///var/run/cri-dockerd.sock
   # --control-plane-endpoint "LOAD_BALANCER_DNS:LOAD_BALANCER_PORT" \
   # --upload-certs
 
