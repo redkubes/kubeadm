@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-# HOST='192.168.200.34 worker-04'
-# sudo echo $HOST >> /etc/hosts
-# sudo hostnamectl set-hostname $HOST
 sudo setenforce 0
 sudo sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=permissive/g' /etc/sysconfig/selinux
 sudo systemctl stop firewalld
@@ -54,12 +51,11 @@ sudo systemctl enable --now cri-docker.socket
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
-baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+baseurl=https://pkgs.k8s.io/core:/stable:/v1.27/rpm/
 enabled=1
 gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+gpgkey=https://pkgs.k8s.io/core:/stable:/v1.27/rpm/repodata/repomd.xml.key
+exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 EOF
-sudo yum -y install kubelet-1.23.16-0 kubeadm-1.23.16-0 kubectl-1.23.16-0
-sudo systemctl enable kubelet
-sudo reboot
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+sudo systemctl enable --now kubelet

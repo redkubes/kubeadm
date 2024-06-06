@@ -26,5 +26,14 @@ Calico, Metallb and Local-path provisioner and add worker nodes to the cluster.
 
 # Notes
 
-- Otomi generates a CA to sign all certs. The generated CA needs to be added to the nodes
-- Add the host names of the master(s) and workers to the /etc/hosts file
+- Make sure the host names of the master(s) and workers are added to the /etc/hosts file
+- After a restart, check if `cri-docker.service` `docker` services are up: `systemctl status cri-docker.socket`
+- Make sure to set `setenforce 0` after a reboot
+- kubelet will be started when kubeadm init is done
+
+```
+sudo setenforce 0
+sudo systemctl enable cri-docker.service
+sudo systemctl enable --now cri-docker.socket
+sudo systemctl restart kubelet
+```

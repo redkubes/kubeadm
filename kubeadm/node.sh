@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-sudo kubeadm join LOAD_BALANCER_DNS:LOAD_BALANCER_PORT --token xxx \
-	--discovery-token-ca-cert-hash xxx
+sudo kubeadm join <master-node>:8443 \
+  --token <token> \
+  --cri-socket=unix:///var/run/cri-dockerd.sock \
+  --discovery-token-ca-cert-hash sha256:<sha>
 
 
-## addtionally label the nodes as workers
-
-kubectl label node <worker-node-name> node-role.kubernetes.io/worker=worker
+kubectl label node <node-name> node-role.kubernetes.io/worker=worker
